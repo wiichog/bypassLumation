@@ -47,7 +47,6 @@ axios.get('http://ec2-3-95-241-62.compute-1.amazonaws.com:5000/get_plates').then
           }
           
         });
-        console.log(languages)
       });
 
 // Teach Autosuggest how to calculate suggestions for any given input value.

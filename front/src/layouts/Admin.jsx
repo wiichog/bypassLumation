@@ -18,9 +18,9 @@
 */
 import React from "react";
 // javascript plugin used to create scrollbars on windows
-import PerfectScrollbar from "perfect-scrollbar";
+//import PerfectScrollbar from "perfect-scrollbar";
 import { Route, Switch } from "react-router-dom";
-
+import Popup from 'react-popup';
 import DemoNavbar from "components/Navbars/DemoNavbar.jsx";
 import Sidebar from "components/Sidebar/Sidebar.jsx";
 import Button from '@material-ui/core/Button';
@@ -42,12 +42,12 @@ class Dashboard extends React.Component {
     };
     this.mainPanel = React.createRef();
   }
-  componentDidMount() {
+  /*componentDidMount() {
     if (navigator.platform.indexOf("Win") > -1) {
       ps = new PerfectScrollbar(this.mainPanel.current);
       document.body.classList.toggle("perfect-scrollbar-on");
     }
-  }
+  }*/
   componentWillUnmount() {
     if (navigator.platform.indexOf("Win") > -1) {
       ps.destroy();
@@ -74,6 +74,9 @@ class Dashboard extends React.Component {
       this.setState({
         login:true,
       })
+    }
+    else{
+      Popup.alert('Contraseña incorrecta');
     }
   }
   render() {
@@ -102,7 +105,10 @@ class Dashboard extends React.Component {
           </div>
         </div>
         ) : (
+          
           <div className="login-wrapper">
+            <Popup />
+              {document.getElementById('popupContainer')}
             <div className="login">
               <h5>
                 Ingresa la contraseña:
