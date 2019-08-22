@@ -23,8 +23,11 @@ import { Route, Switch } from "react-router-dom";
 
 import DemoNavbar from "components/Navbars/DemoNavbar.jsx";
 import Sidebar from "components/Sidebar/Sidebar.jsx";
+import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
 
 import routes from "routes.js";
+import './styles.css';
 
 var ps;
 
@@ -33,7 +36,9 @@ class Dashboard extends React.Component {
     super(props);
     this.state = {
       backgroundColor: "black",
-      activeColor: "info"
+      activeColor: "info",
+      login: false,
+      password: "",
     };
     this.mainPanel = React.createRef();
   }
@@ -61,30 +66,63 @@ class Dashboard extends React.Component {
   handleBgClick = color => {
     this.setState({ backgroundColor: color });
   };
+  handlePassword = (event) => {
+    this.setState({password: event.target.value});
+  }
+  handleLogin = () => {
+    if (this.state.password === "password"){
+      this.setState({
+        login:true,
+      })
+    }
+  }
   render() {
     return (
-      <div className="wrapper">
-        <Sidebar
-          {...this.props}
-          routes={routes}
-          bgColor={this.state.backgroundColor}
-          activeColor={this.state.activeColor}
-        />
-        <div className="main-panel" ref={this.mainPanel}>
-          <DemoNavbar {...this.props} />
-          <Switch>
-            {routes.map((prop, key) => {
-              return (
-                <Route
-                  path={prop.layout + prop.path}
-                  component={prop.component}
-                  key={key}
-                />
-              );
-            })}
-          </Switch>
+        this.state.login ? (
+          <div className="wrapper">
+          <Sidebar
+            {...this.props}
+            routes={routes}
+            bgColor={this.state.backgroundColor}
+            activeColor={this.state.activeColor}
+          />
+          <div className="main-panel" ref={this.mainPanel}>
+            <DemoNavbar {...this.props} />
+            <Switch>
+              {routes.map((prop, key) => {
+                return (
+                  <Route
+                    path={prop.layout + prop.path}
+                    component={prop.component}
+                    key={key}
+                  />
+                );
+              })}
+            </Switch>
+          </div>
         </div>
-      </div>
+        ) : (
+          <div className="login-wrapper">
+            <div className="login">
+              <h5>
+                Ingresa la contraseña:
+              </h5>
+              <TextField
+                className="myinput"
+                variant="outlined"
+                id="password"
+                label="Pasword"
+                name="password"
+                type="password"
+                value={this.state.password} 
+                onChange={this.handlePassword} 
+              />
+              <Button variant="contained" color="primary" onClick={()=>this.handleLogin()}>
+                Login
+              </Button>
+            </div>
+          </div>
+        )
     );
   }
 }
