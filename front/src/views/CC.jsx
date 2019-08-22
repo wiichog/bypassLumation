@@ -15,17 +15,10 @@ import { CircularProgress } from '@material-ui/core';
 // core components
 import axios from 'axios';
 var oackland = {
-    "GF3-2-INGRESO": "2_1",
-    "GF3-3-INGRESO": "2_3",
     "GF1-1-SALIDA": "2_7",
     "GF1-2-SALIDA": "2_9",
     "GF1-3-SALIDA": "2_11",
-    "AD-1-INGRESO": "1_1",
     "GF4-1-SALIDA": "1_3",
-    "GF2-1-INGRESO": "1_5",
-    "GF2-2-INGRESO": "1_7",
-    "AD-2-INGRESO": "1_9",
-    "GF3-1-INGRESO": "1_11"
 }
 
 var miraflores = {
@@ -34,36 +27,27 @@ var miraflores = {
   "GF2-3-SALIDA": "2_6",
   "GF3-1-SALIDA": "2_9",
   "GF4-1-SALIDA": "1_1",
-  "GF5-2-INGRESO": "1_3",
-  "GF9-1-INGRESO-PRICESMART": "1_5",
-  "GF5-3-INGRESO": "1_7",
-  "GF2-1-INGRESO": "1_8",
-  "GF2-2-INGRESO": "1_10",
-  "GF7-2-INGRESO": "4_1",
   "GF9-1-SALIDA": "4_3",
-  "GF10-1-INGRESO": "4_5",
-  "GF10-2-INGRESO": "4_7",
-  "GF5-1-INGRESO": "4_9",
   "GF8-1-SALIDA": "3_1",
   "GF8-2-SALIDA": "3_3",
-  "GF6-2-INGRESO": "3_5",
-  "GF6-1-INGRESO": "3_7",
-  "GF7-1-INGRESO": "3_9",
 }
 
 var plate = ''
 
 var stationsMall = {"1":oackland,"2":miraflores}
 
-var ipAndToken = {"1": "181.114.27.114|69cec5a91966e436c97c995f2a356f01dad69c32","2": "168.234.53.146|2916afc2252bf3acbf2afe6a80265e97dee845db"}
+var ipAndToken = {"1": "181.114.27.114|69cec5a91966e436c97c995f2a356f01dad69c32","2": "181.114.29.114|2916afc2252bf3acbf2afe6a80265e97dee845db"}
 
 const languages = []
 
 axios.get('http://ec2-3-95-241-62.compute-1.amazonaws.com:5000/get_plates').then(response => {
         response.data.forEach(function(element) {
-          languages.push({name:element.plate})
+          if(element.state!=="outside" && element.state!=="blacklist"){
+            languages.push({name:element.plate})
+          }
           
         });
+        console.log(languages)
       });
 
 // Teach Autosuggest how to calculate suggestions for any given input value.
@@ -150,8 +134,8 @@ class Dashboard extends React.Component {
       value,
       onChange: this.onChange
     };
-    const oaklandMall = ['AD-2-INGRESO','GF3-1-INGRESO','GF1-1-SALIDA','GF1-2-SALIDA','GF1-3-SALIDA','AD-1-INGRESO','GF4-1-SALIDA','GF2-1-INGRESO','GF2-2-INGRESO','GF3-3-INGRESO','GF3-2-INGRESO',];
-    const miraflores = ['GF2-1-SALIDA','GF2-2-SALIDA','GF2-3-SALIDA','GF3-1-SALIDA','GF4-1-SALIDA','GF5-2-INGRESO','GF9-1-INGRESO-PRICESMART','GF5-3-INGRESO','GF2-1-INGRESO','GF2-2-INGRESO','GF7-2-INGRESO','GF9-1-SALIDA','GF10-1-INGRESO','GF10-2-INGRESO','GF5-1-INGRESO','GF8-1-SALIDA','GF8-2-SALIDA','GF6-2-INGRESO','GF6-1-INGRESO','GF7-1-INGRESO']
+    const oaklandMall = ['GF1-1-SALIDA','GF1-2-SALIDA','GF1-3-SALIDA','GF4-1-SALIDA'];
+    const miraflores = ['GF2-1-SALIDA','GF2-2-SALIDA','GF2-3-SALIDA','GF3-1-SALIDA','GF4-1-SALIDA','GF9-1-SALIDA','GF8-1-SALIDA','GF8-2-SALIDA']
     return (
       <>
       <div className="blackdiv" id="blackdiv">
